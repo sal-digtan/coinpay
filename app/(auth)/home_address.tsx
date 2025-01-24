@@ -5,43 +5,56 @@ import { moderateScale, verticalScale } from 'react-native-size-matters';
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { router } from 'expo-router'
 
-const AccountSetup = () => {
+const HomeAddress = () => {
 
-    const navigateIndex = () => {
-        router.push("/(auth)")
+    const navigateAccountSetup = () => {
+        router.push("/(auth)/account_setup")
     }
 
-    const navigateHomeAddress = () => {
-        router.push("/(auth)/home_address")
+    const navigatePersonalInfo = () => {
+        router.push("/(auth)/personal_info")
     }
 
     return (
         <View style={styles.container}>
             <View style={styles.body}>
                 <View style={styles.backIconCon}>
-                    <TouchableOpacity activeOpacity={0.8} onPress={navigateIndex}>
+                    <TouchableOpacity activeOpacity={0.8} onPress={navigateAccountSetup}>
                         <Entypo name="chevron-thin-left" size={24} color="#333" style={styles.backIcon} />
                     </TouchableOpacity>
                 </View>
                 <View>
                     <View>
-                        <Text style={styles.emailtextStyle}>Add your Email</Text>
+                        <Text style={styles.emailtextStyle}>Home Address</Text>
                         <Text>This info needs to be accurate with your ID document.</Text>
                     </View>
                     <View style={styles.emailInputCon}>
-                        <Text style={styles.emailTitle}>Email</Text>
-                        <View>
+                        <Text style={styles.emailTitle}>Address Line</Text>
+                        <View style={styles.formControl}>
                             <TextInput
                                 style={styles.emailInput}
-                                placeholder='name@example.com'
+                                placeholder='Mr. John Doe'
                             />
-                            <Ionicons name='mail-outline' size={24} color="#eee" style={styles.IconPos} />
+                        </View>
+                        <View style={styles.formControl}>
+                            <Text style={styles.emailTitle}>City</Text>
+                            <TextInput
+                                style={styles.emailInput}
+                                placeholder='City, State'
+                            />
+                        </View>
+                        <View style={styles.formControl}>
+                            <Text style={styles.emailTitle}>Postcode</Text>
+                            <TextInput
+                                style={styles.emailInput}
+                                placeholder='Ex: 00000'
+                            />
                         </View>
                     </View>
                 </View>
             </View>
             <View>
-                <TouchableOpacity activeOpacity={0.8} style={styles.btnContainer} onPress={navigateHomeAddress}>
+                <TouchableOpacity activeOpacity={0.8} style={styles.btnContainer} onPress={navigatePersonalInfo}>
                     <Text style={styles.btnText}>Continue</Text>
                 </TouchableOpacity>
             </View>
@@ -88,12 +101,6 @@ const styles = StyleSheet.create({
     emailTitle: {
         paddingBottom: moderateScale(5)
     },
-    IconPos: {
-        position: "absolute",
-        top: "50%",
-        end: "0%",
-        transform: "translate(-50%, -50%)"
-    },
     btnContainer: {
         backgroundColor: "#B8B8B8",
         width: moderateScale(330),
@@ -105,7 +112,10 @@ const styles = StyleSheet.create({
     },
     btnText: {
         color: "#121212",
+    },
+    formControl: {
+        marginBottom: moderateScale(10)
     }
 })
 
-export default AccountSetup
+export default HomeAddress

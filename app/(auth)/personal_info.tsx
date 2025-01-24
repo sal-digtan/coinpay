@@ -1,47 +1,61 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import Entypo from '@expo/vector-icons/Entypo';
 import { moderateScale, verticalScale } from 'react-native-size-matters';
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { router } from 'expo-router'
+import DateTimePicker from 'react-native-ui-datepicker';
+import dayjs from 'dayjs';
 
-const AccountSetup = () => {
-
-    const navigateIndex = () => {
-        router.push("/(auth)")
-    }
+const PersonalInfo = () => {
 
     const navigateHomeAddress = () => {
         router.push("/(auth)/home_address")
     }
 
+    const [date, setDate] = useState(dayjs());
+
     return (
         <View style={styles.container}>
             <View style={styles.body}>
                 <View style={styles.backIconCon}>
-                    <TouchableOpacity activeOpacity={0.8} onPress={navigateIndex}>
+                    <TouchableOpacity activeOpacity={0.8} onPress={navigateHomeAddress}>
                         <Entypo name="chevron-thin-left" size={24} color="#333" style={styles.backIcon} />
                     </TouchableOpacity>
                 </View>
                 <View>
                     <View>
-                        <Text style={styles.emailtextStyle}>Add your Email</Text>
+                        <Text style={styles.emailtextStyle}>Add your personal info</Text>
                         <Text>This info needs to be accurate with your ID document.</Text>
                     </View>
                     <View style={styles.emailInputCon}>
-                        <Text style={styles.emailTitle}>Email</Text>
-                        <View>
+                        <Text style={styles.emailTitle}>Full Name</Text>
+                        <View style={styles.formControl}>
                             <TextInput
                                 style={styles.emailInput}
-                                placeholder='name@example.com'
+                                placeholder='Mr. John Doe'
                             />
-                            <Ionicons name='mail-outline' size={24} color="#eee" style={styles.IconPos} />
+                        </View>
+                        <View style={styles.formControl}>
+                            <Text style={styles.emailTitle}>Username</Text>
+                            <TextInput
+                                style={styles.emailInput}
+                                placeholder='@username'
+                            />
+                        </View>
+                        <View style={styles.formControl}>
+                            <Text style={styles.emailTitle}>Date of Birth</Text>
+                            <DateTimePicker
+                                mode="single"
+                                date={date}
+                                onChange={(params) => setDate(params.date)}
+                            />
                         </View>
                     </View>
                 </View>
             </View>
             <View>
-                <TouchableOpacity activeOpacity={0.8} style={styles.btnContainer} onPress={navigateHomeAddress}>
+                <TouchableOpacity activeOpacity={0.8} style={styles.btnContainer}>
                     <Text style={styles.btnText}>Continue</Text>
                 </TouchableOpacity>
             </View>
@@ -88,12 +102,6 @@ const styles = StyleSheet.create({
     emailTitle: {
         paddingBottom: moderateScale(5)
     },
-    IconPos: {
-        position: "absolute",
-        top: "50%",
-        end: "0%",
-        transform: "translate(-50%, -50%)"
-    },
     btnContainer: {
         backgroundColor: "#B8B8B8",
         width: moderateScale(330),
@@ -105,7 +113,10 @@ const styles = StyleSheet.create({
     },
     btnText: {
         color: "#121212",
+    },
+    formControl: {
+        marginBottom: moderateScale(10)
     }
 })
 
-export default AccountSetup
+export default PersonalInfo
