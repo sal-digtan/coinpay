@@ -10,7 +10,7 @@ const Auth = () => {
     const width = Dimensions.get('window').width;
 
     const navigateAccountSetup = () => {
-        router.push("/(auth)/account_setup")
+        router.push("/(auth)/registration")
     }
 
     const slides = [
