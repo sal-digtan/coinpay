@@ -11,6 +11,7 @@ const AuthStack = () => {
             <Stack.Screen name='account_setup' />
             <Stack.Screen name='home_address' />
             <Stack.Screen name='personal_info' />
+            <Stack.Screen name='country_residence' />
         </Stack>
     )
 }

@@ -2,100 +2,56 @@ import React, { useState } from 'react'
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import Entypo from '@expo/vector-icons/Entypo';
 import { moderateScale, verticalScale } from 'react-native-size-matters';
-import Ionicons from '@expo/vector-icons/Ionicons'
 import { router } from 'expo-router'
-import DateTimePicker from 'react-native-ui-datepicker';
-import dayjs from 'dayjs';
-import { Alert, Modal, Pressable } from 'react-native';
-import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
-import Fontisto from '@expo/vector-icons/Fontisto'
+import DropDownPicker from 'react-native-dropdown-picker';
 
-const PersonalInfo = () => {
+const country_residence = () => {
 
-    const navigateHomeAddress = () => {
-        router.push("/(auth)/home_address")
+    const navigatePersonalInfo = () => {
+        router.push("/(auth)/personal_info")
     }
 
-    const navigateCountryResidence = () => {
-        router.push("/(auth)/country_residence")
-    }
-
-    const [date, setDate] = useState(dayjs());
-
-    const [modalVisible, setModalVisible] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(null);
+    const [items, setItems] = useState([
+        { label: 'Bangladesh', value: 'bangladesh' },
+        { label: 'United States', value: 'united states' },
+        { label: 'Singapore', value: 'singapore' },
+        { label: 'India', value: 'india' },
+    ]);
 
     return (
         <View style={styles.container}>
             <View style={styles.body}>
                 <View style={styles.backIconCon}>
-                    <TouchableOpacity activeOpacity={0.8} onPress={navigateHomeAddress}>
+                    <TouchableOpacity activeOpacity={0.8} onPress={navigatePersonalInfo}>
                         <Entypo name="chevron-thin-left" size={24} color="#333" style={styles.backIcon} />
                     </TouchableOpacity>
                 </View>
                 <View>
                     <View>
-                        <Text style={styles.emailtextStyle}>Add your personal info</Text>
+                        <Text style={styles.emailtextStyle}>Country of Residence</Text>
                         <Text>This info needs to be accurate with your ID document.</Text>
                     </View>
                     <View style={styles.emailInputCon}>
                         <Text style={styles.emailTitle}>Full Name</Text>
                         <View style={styles.formControl}>
-                            <TextInput
-                                style={styles.emailInput}
-                                placeholder='Mr. John Doe'
+                            <DropDownPicker
+                                open={open}
+                                value={value}
+                                items={items}
+                                setOpen={setOpen}
+                                setValue={setValue}
+                                setItems={setItems}
                             />
-                        </View>
-                        <View style={styles.formControl}>
-                            <Text style={styles.emailTitle}>Username</Text>
-                            <TextInput
-                                style={styles.emailInput}
-                                placeholder='@username'
-                            />
-                        </View>
-                        <View style={styles.formControl}>
-                            <Text style={styles.emailTitle}>Date of Birth</Text>
-                            <View style={styles.dateCon}>
-                                <View style={styles.dateIcon}>
-                                    <Fontisto name='date' color='#ddd' size={16} />
-                                </View>
-                                <TextInput style={styles.dateInput} onPress={() => setModalVisible(true)} placeholder='MM/DD/YYYY' />
-                            </View>
-
                         </View>
                     </View>
                 </View>
-                <SafeAreaProvider>
-                    <SafeAreaView style={styles.centeredView}>
-                        <Modal
-                            animationType="slide"
-                            transparent={true}
-                            visible={modalVisible}
-                            onRequestClose={() => {
-                                Alert.alert('Modal has been closed.');
-                                setModalVisible(!modalVisible);
-                            }}>
-                            <View style={styles.centeredView}>
-                                <View style={styles.modalView}>
-                                    <DateTimePicker
-                                        mode="single"
-                                        date={date}
-                                        onChange={(params) => setDate(params.date)}
-                                    />
-                                    <Pressable
-                                        style={[styles.button, styles.buttonClose]}
-                                        onPress={() => setModalVisible(!modalVisible)}>
-                                        <Text style={styles.textStyle}>Confirm</Text>
-                                    </Pressable>
-                                </View>
-                            </View>
-                        </Modal>
-                    </SafeAreaView>
-                </SafeAreaProvider>
-                <View>
-                    <TouchableOpacity activeOpacity={0.8} style={styles.btnContainer} onPress={navigateCountryResidence}>
-                        <Text style={styles.btnText}>Continue</Text>
-                    </TouchableOpacity>
-                </View>
+            </View>
+            <View>
+                <TouchableOpacity activeOpacity={0.8} style={styles.btnContainer}>
+                    <Text style={styles.btnText}>Continue</Text>
+                </TouchableOpacity>
             </View>
         </View>
     )
@@ -146,6 +102,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         padding: moderateScale(20),
         borderRadius: moderateScale(50),
+        marginStart: moderateScale(22),
+        marginEnd: moderateScale(20),
     },
     btnText: {
         color: "#121212",
@@ -212,4 +170,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default PersonalInfo
+export default country_residence

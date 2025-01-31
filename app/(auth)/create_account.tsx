@@ -1,18 +1,22 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, } from 'react-native'
 import Entypo from '@expo/vector-icons/Entypo';
 import { moderateScale, verticalScale } from 'react-native-size-matters';
 import { router } from 'expo-router'
 import { Linking } from 'react-native';
-import { Alert, Modal, Pressable } from 'react-native';
-import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import imagesPath from '@/constants/imagesPath';
 import countryDialCode from '@/constants/countryDialCode'
+import EvilIcons from '@expo/vector-icons/EvilIcons'
+import AntDesign from '@expo/vector-icons/AntDesign'
 
 const CreateAccount = () => {
 
     const navigateConfirmPhone = () => {
         router.push("/(auth)/confirm_phone")
+    }
+
+    const navigateAccountSetup = () => {
+        router.push("/(auth)/account_setup")
     }
 
     const [verifyBtnClicked, setVerifyBtnClicked] = useState(false)
@@ -29,6 +33,8 @@ const CreateAccount = () => {
             { code6: "" },
         ])
 
+    const [dialCode, setDialCode] = useState("")
+
     return (
         <View style={styles.parentCon}>
             <View style={styles.backIconCon}>
@@ -43,16 +49,27 @@ const CreateAccount = () => {
                         <Text style={styles.textCon}>Coinpay is a powerful tool that allows you to easily send, receive, and track all your transactions. </Text>
                     </View>
                     <View style={styles.codeInputCon}>
-                        {countryDialCode.map((item, index) =>
-                            <View>
-                                <Image source={item.image} />
-                                <TextInput key={index} style={styles.codeInputDial} onChangeText={text => setCodeInput([{ code1: text }])} maxLength={1} value={item.dial_code} />
-                            </View>
-                        )}
-                        <TextInput style={styles.codeInputNumber} onChangeText={text => setCodeInput([{ code2: text }])} maxLength={1} placeholder='Mobile Number' />
+                        <View>
+                            {/* {countryDialCode.map((item, index) =>
+                                <View>
+                                <Image key={index} source={item.dial_code === dialCode ? item.image : ""} width={24} />
+                                </View>
+                                )} */}
+                            <Text>Phone</Text>
+                            <TextInput style={styles.codeInputDial} onChangeText={text => setDialCode(text)} maxLength={4} />
+                        </View>
+
+                        <TextInput style={styles.codeInputNumber} placeholder='Mobile Number' />
                     </View>
-                    <View>
-                        <TextInput style={styles.codeInputPassword} onChangeText={text => setCodeInput([{ code6: text }])} maxLength={1} />
+                    <View style={styles.passwordCon}>
+                        <Text>Password</Text>
+                        <View style={styles.passwordLock}>
+                            <EvilIcons name='lock' size={24} color="#ddd" />
+                        </View>
+                        <View style={styles.passwordEye}>
+                            <AntDesign name='eyeo' size={18} color="#ddd" />
+                        </View>
+                        <TextInput style={styles.codeInputPassword} />
                     </View>
                     <View>
                         <Text>Didn't get a code?
@@ -61,42 +78,11 @@ const CreateAccount = () => {
                     </View>
                 </View>
                 <View>
-                    <TouchableOpacity activeOpacity={0.8} style={verifyBtnClicked ? styles.btnClickedCon : styles.btnContainer} onPress={() => { setVerifyBtnClicked(true), setModalVisible(true) }}>
-                        <Text style={verifyBtnClicked ? styles.btnTextClicked : styles.btnText}>Verify Your Number</Text>
+                    <TouchableOpacity activeOpacity={0.8} style={verifyBtnClicked ? styles.btnClickedCon : styles.btnContainer} onPress={navigateAccountSetup}>
+                        <Text style={verifyBtnClicked ? styles.btnTextClicked : styles.btnText}>Sign up</Text>
                     </TouchableOpacity>
                 </View>
             </View>
-            {/* <SafeAreaProvider>
-                <SafeAreaView style={styles.centeredView}>
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={modalVisible}
-                        onRequestClose={() => {
-                            Alert.alert('Modal has been closed.');
-                            setModalVisible(!modalVisible);
-                        }}>
-                        <View style={styles.centeredView}>
-                            <View style={styles.modalView}>
-                                <Image source={imagesPath.sliderImg2} resizeMode='contain' />
-                                <Text style={styles.modalText}>Verify your phone number before we send code</Text>
-                                <Text>is this correct? </Text>
-
-                                <TouchableOpacity activeOpacity={0.8}
-                                    style={[styles.modalbutton, styles.modalbuttonClose]}
-                                    onPress={() => setModalVisible(!modalVisible)}>
-                                    <Text style={styles.textStyle}>Yes</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity activeOpacity={0.8}
-                                    style={[styles.modalbutton, styles.modalbuttonClose]}
-                                    onPress={() => setModalVisible(!modalVisible)}>
-                                    <Text style={styles.textStyle}>No</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </Modal>
-                </SafeAreaView>
-            </SafeAreaProvider> */}
         </View>
     )
 }
@@ -172,7 +158,7 @@ const styles = StyleSheet.create({
     },
     codeInputDial: {
         borderWidth: moderateScale(1),
-        padding: moderateScale(10),
+        padding: moderateScale(5),
         borderBottomColor: "#CBCBCB",
         marginEnd: moderateScale(5),
         width: moderateScale(60),
@@ -240,6 +226,21 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: moderateScale(24),
     },
+    passwordCon: {
+        position: 'relative',
+    },
+    passwordLock: {
+        position: 'absolute',
+        top: '65%',
+        left: '5%',
+        transform: 'translate(-50%, -50%)',
+    },
+    passwordEye: {
+        position: 'absolute',
+        top: '65%',
+        right: '3%',
+        transform: 'translate(-50%, -50%)',
+    }
 })
 
 export default CreateAccount
